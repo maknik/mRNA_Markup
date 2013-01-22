@@ -1,0 +1,16 @@
+<tool id="museqbox_partition" name="MuSeqBox_partition">
+	<description>Program separates portions of a sequence that produced blast hits from those that did not.
+        </description>
+        <command interpreter="python">
+                museqboxpartition.py $res1 $res2 $notmRNA $mRNA
+        </command>
+        <inputs>
+	<param type="data" name="res2" label="fasta file"/>
+	<param type="data" name="res1" label="msb file"/>
+	<param type="text" name="label" label="Output label" />
+	</inputs>
+        <outputs>
+        <data format="fasta" name="mRNA" label="${label}-mRNA.fas"/>
+	<data format="fasta" name="notmRNA" label="not-${label}-mRNA.fas"/>
+        </outputs>
+</tool>

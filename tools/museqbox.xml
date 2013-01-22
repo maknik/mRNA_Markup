@@ -1,0 +1,33 @@
+<tool id="museqbox" name="MuSeqBox">
+	<description>MuSeqBox examines the BLAST output, extracts the informative parameters of BLAST hits, and saves them in tabular form.
+	</description>
+        <command>
+               $__root_dir__/tools/MUSEQBOX/bin/MuSeqBox
+	#if $par_F.__str__ == 'yes':
+		-F 5 5 10 10 90 60 $msb -n 1 -s 1 -o tmp 
+	#end if
+	#if $par_M.__str__ == 'yes':
+		-M 10 50
+	#end if
+	-l 40 -p 4  
+	#if $par_q.__str__ == 'yes':
+		-q
+	#end if
+	-i $seqs
+	#if $par_o.__str__ == 'yes' and $par_F.__str__ != 'yes':
+		-o $msb
+	#end if
+        </command>
+        <inputs>
+	<param type="data" name="seqs" label="Blast out file"/>
+	<param name="par_q" type="boolean" truevalue="yes" falsevalue="no" checked="True" label="-q List also queries that did not match andy database subjects"/>
+	<param name="par_F" type="boolean" truevalue="yes" falsevalue="no" checked="False" label="-F Identify potential full-length coding sequences"/>
+	<param name="par_M" type="boolean" truevalue="yes" falsevalue="no" checked="False" label=" -M Identify potential chimeric-sequence"/>
+	<param name="par_o" type="boolean" truevalue="yes" falsevalue="no" checked="True" label="-o Output"/>
+	<param name="labe" type="text" label="Outputfile label" />
+        </inputs>
+        <outputs>
+        <data name="msb" format="msb" label="${labe}.msb"/>
+        </outputs>
+</tool>
+

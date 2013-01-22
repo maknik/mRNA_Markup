@@ -1,0 +1,23 @@
+<tool id="summary" name="mRNA Markup Report">
+    <description>Produces a summary report detailing how many sequences were matched during each step as well as how many potentially novel sequences remain.
+    </description>
+    <command interpreter="python">
+	summary.py $all $VC $BC $RA $FL $nFL $PC $nPC $AA $CD $nCD $sum
+    </command>
+    <inputs>
+	<param type="data" name="all" label="All sequences"/>
+	<param type="data" name="VC" label="VC_mRNA"/>
+	<param type="data" name="BC" label="BC_mRNA"/>
+	<param type="data" name="RA" label="RA_mRNA"/>
+	<param type="data" name="FL" label="FL_mRNA"/>
+	<param type="data" name="nFL" label="not_FL_mRNA"/>
+	<param type="data" name="PC" label="PC_mRNA"/>
+	<param type="data" name="nPC" label="not_PC_mRNA"/>
+	<param type="data" name="AA" label="AA_mRNA"/>
+	<param type="data" name="CD" label="CD_mRNA"/>
+	<param type="data" name="nCD" label="not_CD_mRNA"/>
+    </inputs>
+    <outputs>
+        <data name="sum" format="text" label="Summary"/>
+    </outputs>
+</tool>

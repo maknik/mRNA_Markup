@@ -1,0 +1,79 @@
+
+<tool id="blast_plus_plus" name="Blast++">
+	<description>Standard NCBI BLAST+ programns</description>
+        <command>
+        #if $database.source.__str__ == 'new':
+		$__root_dir__/tools/ncbi-blast-2.2.24+/bin/makeblastdb -in $database.template -out $output -dbtype $database.type.value -parse_seqids;
+	#end if
+	$__root_dir__/tools/ncbi-blast-2.2.24+/bin/$program.type 
+	#if $database.source.__str__ == 'new':
+		-db $output
+	#else:
+		-db $database.template
+	#end if
+   	-out $output -show_gis -query $program.sequences
+	#if $program.type.__str__ == 'blastn':
+		-evalue 1e-20
+        #elif $program.type.__str__ == 'blastx':
+		-seg yes
+		-evalue 1e-20
+		#if $program.descr.__str__ == 'yes':
+			-num_descriptions 10
+		#end if
+		#if $program.align.__str__ == 'yes':
+			-num_alignments 5
+		#end if		
+	#elif $program.type.__str__ == 'rpstblastn':
+		-num_descriptions 10
+		-num_alignments 5
+		-seg yes  
+		-evalue 1e-10	
+	#end if
+        </command>
+        <inputs>
+	<conditional name="program">
+	<param name="type" type="select" format="blastn,blastx,rpblastn" label="Program">
+    		<option value="blastn">blastn</option>
+    		<option value="blastx">blastx</option>
+    		<option value="rpstblastn">rpsblast</option>
+   	</param>
+	<when value="blastn">
+		<param type="data" format="fasta" name="sequences" label="Input sequences"/>
+	</when>
+	<when value="blastx">
+		<param type="data" format="fasta" name="sequences" label="Input sequences"/>
+		<param name="descr" type="boolean" truevalue="yes" falsevalue="no" checked="False" label="-num_descriptions 10 Number of description to display"/>
+		<param name="align" type="boolean" truevalue="yes" falsevalue="no" checked="False" label="-num_alignments 5 Number of aligments to display"/>
+	</when>
+	<when value="rpstblastn">
+		<param type="data" format="fasta" name="sequences" label="Input sequences"/>
+	</when>
+	</conditional>
+	<conditional name="database">
+   		<param name="source" type="select" label="Select Reference Template or Create New Database From fasta File" help="">
+    		<option value="ref">Cached Reference</option>
+    		<option value="new">Create New Database</option>
+   		</param>
+   	<when value="ref">
+    		<param name="template" type="select" label="reference - Select database " help="">
+     			<options from_file="adpb_database.loc">
+      			<column name="name" index="0" />
+      			<column name="value" index="1" />
+     			</options>
+    		</param>
+   	</when>
+   	<when value="new">
+    		<param name="template" type="data" format="fasta" label="fasta File" help=""/>
+		<conditional name="type">
+			<param name="value" type="select" label="Type of database" help="">
+				<option value="nucl">Nucleotide</option>
+				<option value="prot">Protein</option>
+			</param>
+		</conditional>
+   	</when>
+  	</conditional>
+        </inputs>
+        <outputs>
+        <data format="tabular" name="output" label="$program.type result $database.type.name"/>
+        </outputs>
+</tool>

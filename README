@@ -1,0 +1,30 @@
+This is the mRNA Markup workflow implemented in Galaxy system (http://galaxyproject.org/). The original workflow was created in BioExtract Server. Procedure represents comprehensive annotation and primary analysis of a set of transcripts. Such sets are currently abundantly generated from assembly of EST sequences, and with increasing read lengths of novel sequencing technologies, there will be similar assemblies of RNA-Seq data from many species and sampling conditions. Using NCBI BLAST+, MuSeqBox (Multi-query sequence BLAST output examination with MuSeqBox developed by the Brendel Group), and python scripts, an input transcript set is partitioned in many ways, including into contaminants (sequencing artifacts), potential chimeras, likely full-length protein-coding mRNAs, miRNAs, and potentially novel transcripts for further analysis with other programs.
+
+The workflow uses a sample input file consisting of Arabidopsis mRNA and searches the following BLAST databases by default:
+Vector Database: UniVec
+Bacteria Database: E. Coli from NCBI Nucleotide
+Reference Database: ATpepTAIR10 (A set of Arabidopsis protein sequences available at http://www.plantgdb.org/XGDB/phplib/download.php?GDB=At)
+All Protein Database: UniRef90-Viridiplantae (http://www.uniprot.org/uniref/?query=identity:0.9+taxonomy:33090&format=*&compress=yes)
+Protein Domain Database: NCBI’s CDD
+
+The workflow consists of several “steps” each of which comprises several analytic tools. Each step reads an mRNA input and executes BLAST+ to identify, for example, bacterial contamination or reference protein hits followed by MuSeqBox which partitions the input sequences into those that produced hits and those that did not. Sequences that did not produce hits are used as input into subsequent steps.
+
+Steps of workflow:
+1. Eliminate Vector Contamination
+2. Eliminate bacterial contamination
+3. Find matches in a reference protein database 
+	3.1. Identify potential full-length coding sequences 
+	3.2. Identify potential chimeric sequences
+4. Find matches in a Comprehensive Protein database
+5. Find matches in Protein Domain Database
+6. Produce summary report
+
+Tools:
+-Blast_mm.xml: tool provide searching nucleotide or protein database with a nucleotide or protein query using selected standard NCBI blastn, blastx or rpstblastn program. Query must be FASTA formatted file. Database can be created based on FASTA file or selected from Galaxy History. Depends on program sometimes it is possible to change BLAST parameters: expectation value cutoff, number of displayed descriptions and number of displayed alignments.
+
+-MuSeqBox.xml: MuSeqBox is a program designed for multi-query sequence BLAST output examination. It examines the BLAST output, extracts the informative parameters of BLAST hits, and saves them in tabular form. The hit tables can be further analyzed to produce subsets of BLAST hits according to user-specified criteria. More information is available at http://www.plantgdb.org/MuSeqBox/help.php. Input may be either a blast report or another MuSeqBox file. Output is a tabular description of BLAST hits, stored in a .msb file. To produce subsets of BLAST hits that are potentially chimeric -M option was used, for full-length coding sequences -F option was used.
+
+-museqbox_partition: Program separates portions of a sequence that produced blast hits from those that did not. The "-label" parameter allows labelling the kind of hits being described. For example, the label "BC" is used to denote bacterial contamination. With such a label, MuSeqBox_Partition would produce BC-mRNA.fas and not_BC-mRNA.fas. Input consists of a MuSeqBox output file and a file containing the query sequences for the BLAST whose output was processed by MuSeqBox. Output consists of two FASTA files, one containing the sequences which correspond to BLAST hits, and one containing the sequences which do not. Tool recognizes type of sequences (chimeric, protein or nucleotide)
+
+-summary: This tool performs the final step of the workflow. It produces a summary report (Summary.txt) detailing how many sequences were matched during each step as well as how many potentially novel sequences remain. The matched and unmatched sequences themselves are presented as well. Input consists of the FASTA files produced in the previous steps.
+

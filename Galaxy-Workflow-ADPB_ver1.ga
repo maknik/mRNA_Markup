@@ -1,0 +1,910 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "ADPB_ver1", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "mRNA Input file"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 244, 
+                "top": 893
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"mRNA Input file\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "1": {
+            "annotation": "", 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Bacteria Database"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 503, 
+                "top": 895
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Bacteria Database\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "2": {
+            "annotation": "", 
+            "id": 2, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Reference Database"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 743, 
+                "top": 896
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Reference Database\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "id": 3, 
+            "input_connections": {
+                "program|sequences": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Blast++", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 238, 
+                "top": 740
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "blast_plus_plus", 
+            "tool_state": "{\"__page__\": 0, \"program\": \"{\\\"type\\\": \\\"blastn\\\", \\\"__current_case__\\\": 0, \\\"sequences\\\": null}\", \"database\": \"{\\\"source\\\": \\\"ref\\\", \\\"template\\\": \\\"/data/monika/galaxy-python/galaxy-dist-postgres/tool-data/ADPB_Database/UniVec\\\", \\\"__current_case__\\\": 0}\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "4": {
+            "annotation": "", 
+            "id": 4, 
+            "input_connections": {
+                "seqs": {
+                    "id": 3, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox", 
+            "outputs": [
+                {
+                    "name": "msb", 
+                    "type": "msb"
+                }
+            ], 
+            "position": {
+                "left": 248, 
+                "top": 610
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmsb": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "msb"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox", 
+            "tool_state": "{\"par_q\": \"\\\"True\\\"\", \"__page__\": 0, \"par_s\": \"\\\"False\\\"\", \"labe\": \"\\\"VC\\\"\", \"par_F\": \"\\\"False\\\"\", \"seqs\": \"null\", \"par_M\": \"\\\"False\\\"\", \"par_o\": \"\\\"True\\\"\", \"par_n\": \"\\\"False\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "5": {
+            "annotation": "", 
+            "id": 5, 
+            "input_connections": {
+                "res1": {
+                    "id": 4, 
+                    "output_name": "msb"
+                }, 
+                "res2": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox_partition", 
+            "outputs": [
+                {
+                    "name": "mRNA", 
+                    "type": "fasta"
+                }, 
+                {
+                    "name": "notmRNA", 
+                    "type": "fasta"
+                }
+            ], 
+            "position": {
+                "left": 237, 
+                "top": 416
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "mRNA"
+                }, 
+                "HideDatasetActionnotmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox_partition", 
+            "tool_state": "{\"res2\": \"null\", \"__page__\": 0, \"res1\": \"null\", \"label\": \"\\\"VC\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "6": {
+            "annotation": "", 
+            "id": 6, 
+            "input_connections": {
+                "database|template": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "program|sequences": {
+                    "id": 5, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Blast++", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 506, 
+                "top": 738
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "blast_plus_plus", 
+            "tool_state": "{\"__page__\": 0, \"program\": \"{\\\"type\\\": \\\"blastn\\\", \\\"__current_case__\\\": 0, \\\"sequences\\\": null}\", \"database\": \"{\\\"source\\\": \\\"new\\\", \\\"type\\\": {\\\"value\\\": \\\"nucl\\\", \\\"__current_case__\\\": 0}, \\\"template\\\": null, \\\"__current_case__\\\": 1}\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "7": {
+            "annotation": "", 
+            "id": 7, 
+            "input_connections": {
+                "seqs": {
+                    "id": 6, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox", 
+            "outputs": [
+                {
+                    "name": "msb", 
+                    "type": "msb"
+                }
+            ], 
+            "position": {
+                "left": 510, 
+                "top": 610
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmsb": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "msb"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox", 
+            "tool_state": "{\"par_q\": \"\\\"True\\\"\", \"__page__\": 0, \"par_s\": \"\\\"False\\\"\", \"labe\": \"\\\"BC\\\"\", \"par_F\": \"\\\"False\\\"\", \"seqs\": \"null\", \"par_M\": \"\\\"False\\\"\", \"par_o\": \"\\\"True\\\"\", \"par_n\": \"\\\"False\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "8": {
+            "annotation": "", 
+            "id": 8, 
+            "input_connections": {
+                "res1": {
+                    "id": 7, 
+                    "output_name": "msb"
+                }, 
+                "res2": {
+                    "id": 5, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox_partition", 
+            "outputs": [
+                {
+                    "name": "mRNA", 
+                    "type": "fasta"
+                }, 
+                {
+                    "name": "notmRNA", 
+                    "type": "fasta"
+                }
+            ], 
+            "position": {
+                "left": 502, 
+                "top": 419
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "mRNA"
+                }, 
+                "HideDatasetActionnotmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox_partition", 
+            "tool_state": "{\"res2\": \"null\", \"__page__\": 0, \"res1\": \"null\", \"label\": \"\\\"BC\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "9": {
+            "annotation": "", 
+            "id": 9, 
+            "input_connections": {
+                "database|template": {
+                    "id": 2, 
+                    "output_name": "output"
+                }, 
+                "program|sequences": {
+                    "id": 8, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Blast++", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 741, 
+                "top": 744
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "blast_plus_plus", 
+            "tool_state": "{\"__page__\": 0, \"program\": \"{\\\"align\\\": \\\"False\\\", \\\"type\\\": \\\"blastx\\\", \\\"descr\\\": \\\"False\\\", \\\"__current_case__\\\": 1, \\\"sequences\\\": null}\", \"database\": \"{\\\"source\\\": \\\"new\\\", \\\"type\\\": {\\\"value\\\": \\\"nucl\\\", \\\"__current_case__\\\": 0}, \\\"template\\\": null, \\\"__current_case__\\\": 1}\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "10": {
+            "annotation": "", 
+            "id": 10, 
+            "input_connections": {
+                "seqs": {
+                    "id": 9, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox", 
+            "outputs": [
+                {
+                    "name": "msb", 
+                    "type": "msb"
+                }
+            ], 
+            "position": {
+                "left": 759, 
+                "top": 615
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmsb": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "msb"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox", 
+            "tool_state": "{\"par_q\": \"\\\"True\\\"\", \"__page__\": 0, \"par_s\": \"\\\"False\\\"\", \"labe\": \"\\\"RA\\\"\", \"par_F\": \"\\\"False\\\"\", \"seqs\": \"null\", \"par_M\": \"\\\"False\\\"\", \"par_o\": \"\\\"True\\\"\", \"par_n\": \"\\\"False\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "11": {
+            "annotation": "", 
+            "id": 11, 
+            "input_connections": {
+                "res1": {
+                    "id": 10, 
+                    "output_name": "msb"
+                }, 
+                "res2": {
+                    "id": 8, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox_partition", 
+            "outputs": [
+                {
+                    "name": "mRNA", 
+                    "type": "fasta"
+                }, 
+                {
+                    "name": "notmRNA", 
+                    "type": "fasta"
+                }
+            ], 
+            "position": {
+                "left": 748, 
+                "top": 423
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "mRNA"
+                }, 
+                "HideDatasetActionnotmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox_partition", 
+            "tool_state": "{\"res2\": \"null\", \"__page__\": 0, \"res1\": \"null\", \"label\": \"\\\"RA\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "12": {
+            "annotation": "", 
+            "id": 12, 
+            "input_connections": {
+                "seqs": {
+                    "id": 10, 
+                    "output_name": "msb"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox", 
+            "outputs": [
+                {
+                    "name": "msb", 
+                    "type": "msb"
+                }
+            ], 
+            "position": {
+                "left": 997, 
+                "top": 613
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmsb": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "msb"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox", 
+            "tool_state": "{\"par_q\": \"\\\"True\\\"\", \"__page__\": 0, \"par_s\": \"\\\"True\\\"\", \"labe\": \"\\\"FL\\\"\", \"par_F\": \"\\\"True\\\"\", \"seqs\": \"null\", \"par_M\": \"\\\"False\\\"\", \"par_o\": \"\\\"False\\\"\", \"par_n\": \"\\\"True\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "13": {
+            "annotation": "", 
+            "id": 13, 
+            "input_connections": {
+                "seqs": {
+                    "id": 10, 
+                    "output_name": "msb"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox", 
+            "outputs": [
+                {
+                    "name": "msb", 
+                    "type": "msb"
+                }
+            ], 
+            "position": {
+                "left": 1217, 
+                "top": 616
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmsb": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "msb"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox", 
+            "tool_state": "{\"par_q\": \"\\\"False\\\"\", \"__page__\": 0, \"par_s\": \"\\\"False\\\"\", \"labe\": \"\\\"PC\\\"\", \"par_F\": \"\\\"False\\\"\", \"seqs\": \"null\", \"par_M\": \"\\\"True\\\"\", \"par_o\": \"\\\"True\\\"\", \"par_n\": \"\\\"False\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "14": {
+            "annotation": "", 
+            "id": 14, 
+            "input_connections": {
+                "program|sequences": {
+                    "id": 11, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Blast++", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1419, 
+                "top": 760
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "blast_plus_plus", 
+            "tool_state": "{\"__page__\": 0, \"program\": \"{\\\"align\\\": \\\"True\\\", \\\"type\\\": \\\"blastx\\\", \\\"descr\\\": \\\"True\\\", \\\"__current_case__\\\": 1, \\\"sequences\\\": null}\", \"database\": \"{\\\"source\\\": \\\"ref\\\", \\\"template\\\": \\\"/data/monika/galaxy-python/galaxy-dist-postgres/tool-data/ADPB_Database/all_prot\\\", \\\"__current_case__\\\": 0}\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "15": {
+            "annotation": "", 
+            "id": 15, 
+            "input_connections": {
+                "res1": {
+                    "id": 12, 
+                    "output_name": "msb"
+                }, 
+                "res2": {
+                    "id": 11, 
+                    "output_name": "mRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox_partition", 
+            "outputs": [
+                {
+                    "name": "mRNA", 
+                    "type": "fasta"
+                }, 
+                {
+                    "name": "notmRNA", 
+                    "type": "fasta"
+                }
+            ], 
+            "position": {
+                "left": 978, 
+                "top": 425
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "mRNA"
+                }, 
+                "HideDatasetActionnotmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox_partition", 
+            "tool_state": "{\"res2\": \"null\", \"__page__\": 0, \"res1\": \"null\", \"label\": \"\\\"FL\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "16": {
+            "annotation": "", 
+            "id": 16, 
+            "input_connections": {
+                "seqs": {
+                    "id": 14, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox", 
+            "outputs": [
+                {
+                    "name": "msb", 
+                    "type": "msb"
+                }
+            ], 
+            "position": {
+                "left": 1448, 
+                "top": 615
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmsb": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "msb"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox", 
+            "tool_state": "{\"par_q\": \"\\\"True\\\"\", \"__page__\": 0, \"par_s\": \"\\\"False\\\"\", \"labe\": \"\\\"AA\\\"\", \"par_F\": \"\\\"False\\\"\", \"seqs\": \"null\", \"par_M\": \"\\\"False\\\"\", \"par_o\": \"\\\"True\\\"\", \"par_n\": \"\\\"False\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "17": {
+            "annotation": "", 
+            "id": 17, 
+            "input_connections": {
+                "res1": {
+                    "id": 13, 
+                    "output_name": "msb"
+                }, 
+                "res2": {
+                    "id": 15, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox_partition", 
+            "outputs": [
+                {
+                    "name": "mRNA", 
+                    "type": "fasta"
+                }, 
+                {
+                    "name": "notmRNA", 
+                    "type": "fasta"
+                }
+            ], 
+            "position": {
+                "left": 1203, 
+                "top": 423
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "mRNA"
+                }, 
+                "HideDatasetActionnotmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox_partition", 
+            "tool_state": "{\"res2\": \"null\", \"__page__\": 0, \"res1\": \"null\", \"label\": \"\\\"PC\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "18": {
+            "annotation": "", 
+            "id": 18, 
+            "input_connections": {
+                "res1": {
+                    "id": 16, 
+                    "output_name": "msb"
+                }, 
+                "res2": {
+                    "id": 11, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox_partition", 
+            "outputs": [
+                {
+                    "name": "mRNA", 
+                    "type": "fasta"
+                }, 
+                {
+                    "name": "notmRNA", 
+                    "type": "fasta"
+                }
+            ], 
+            "position": {
+                "left": 1433, 
+                "top": 425
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "mRNA"
+                }, 
+                "HideDatasetActionnotmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox_partition", 
+            "tool_state": "{\"res2\": \"null\", \"__page__\": 0, \"res1\": \"null\", \"label\": \"\\\"AA\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "19": {
+            "annotation": "", 
+            "id": 19, 
+            "input_connections": {
+                "program|sequences": {
+                    "id": 18, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Blast++", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1721, 
+                "top": 768
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "blast_plus_plus", 
+            "tool_state": "{\"__page__\": 0, \"program\": \"{\\\"type\\\": \\\"blastn\\\", \\\"__current_case__\\\": 0, \\\"sequences\\\": null}\", \"database\": \"{\\\"source\\\": \\\"ref\\\", \\\"template\\\": \\\"/data/monika/galaxy-python/galaxy-dist-postgres/tool-data/ADPB_Database/cdd\\\", \\\"__current_case__\\\": 0}\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "20": {
+            "annotation": "", 
+            "id": 20, 
+            "input_connections": {
+                "seqs": {
+                    "id": 19, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox", 
+            "outputs": [
+                {
+                    "name": "msb", 
+                    "type": "msb"
+                }
+            ], 
+            "position": {
+                "left": 1720, 
+                "top": 620
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmsb": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "msb"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox", 
+            "tool_state": "{\"par_q\": \"\\\"True\\\"\", \"__page__\": 0, \"par_s\": \"\\\"False\\\"\", \"labe\": \"\\\"CD\\\"\", \"par_F\": \"\\\"False\\\"\", \"seqs\": \"null\", \"par_M\": \"\\\"False\\\"\", \"par_o\": \"\\\"True\\\"\", \"par_n\": \"\\\"False\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "21": {
+            "annotation": "", 
+            "id": 21, 
+            "input_connections": {
+                "res1": {
+                    "id": 20, 
+                    "output_name": "msb"
+                }, 
+                "res2": {
+                    "id": 18, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "MuSeqBox_partition", 
+            "outputs": [
+                {
+                    "name": "mRNA", 
+                    "type": "fasta"
+                }, 
+                {
+                    "name": "notmRNA", 
+                    "type": "fasta"
+                }
+            ], 
+            "position": {
+                "left": 1715, 
+                "top": 429
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "mRNA"
+                }, 
+                "HideDatasetActionnotmRNA": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "museqbox_partition", 
+            "tool_state": "{\"res2\": \"null\", \"__page__\": 0, \"res1\": \"null\", \"label\": \"\\\"CD\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "22": {
+            "annotation": "", 
+            "id": 22, 
+            "input_connections": {
+                "AA": {
+                    "id": 18, 
+                    "output_name": "mRNA"
+                }, 
+                "BC": {
+                    "id": 8, 
+                    "output_name": "mRNA"
+                }, 
+                "CD": {
+                    "id": 21, 
+                    "output_name": "mRNA"
+                }, 
+                "FL": {
+                    "id": 15, 
+                    "output_name": "mRNA"
+                }, 
+                "PC": {
+                    "id": 17, 
+                    "output_name": "mRNA"
+                }, 
+                "RA": {
+                    "id": 11, 
+                    "output_name": "mRNA"
+                }, 
+                "VC": {
+                    "id": 5, 
+                    "output_name": "mRNA"
+                }, 
+                "all": {
+                    "id": 0, 
+                    "output_name": "output"
+                }, 
+                "nCD": {
+                    "id": 21, 
+                    "output_name": "notmRNA"
+                }, 
+                "nFL": {
+                    "id": 15, 
+                    "output_name": "notmRNA"
+                }, 
+                "nPC": {
+                    "id": 17, 
+                    "output_name": "notmRNA"
+                }
+            }, 
+            "inputs": [], 
+            "name": "mRNA Markup Report", 
+            "outputs": [
+                {
+                    "name": "sum", 
+                    "type": "text"
+                }
+            ], 
+            "position": {
+                "left": 1946, 
+                "top": 195
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "summary", 
+            "tool_state": "{\"AA\": \"null\", \"__page__\": 0, \"all\": \"null\", \"VC\": \"null\", \"BC\": \"null\", \"nCD\": \"null\", \"nFL\": \"null\", \"nPC\": \"null\", \"CD\": \"null\", \"PC\": \"null\", \"RA\": \"null\", \"FL\": \"null\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }
+    }
+}
